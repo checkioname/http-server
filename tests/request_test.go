@@ -23,7 +23,7 @@ func TestParseRequest(t *testing.T) {
 
 	// Chama a função ParseRequest com a requisição bruta
 	result := request.ParseRequest(rawRequest)
-
+  
 	// Verifica se o resultado é igual ao esperado
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("ParseRequest() = %v, expected %v", result, expected)

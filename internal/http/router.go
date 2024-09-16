@@ -1,13 +1,29 @@
 package http
 
 import (
-  "strings"
-  "crystal/pkg/request"
-  "crystal/pkg/response"
+	"crystal/pkg/request"
+	"crystal/pkg/response"
+	"net/http"
+	"strings"
 )
 
 
-func Route(req request.HttpRequest) string {
+type Route struct {
+  Method string // GET, POST, PUT, DELETE
+  Path string  // caminho request
+  Handler []HandlerFunc  //Middleware
+  Group string // grupo para o qual a rota pertence
+  IsTerminal bool // se verdadeiro nenhuma rota processa depois
+
+}
+
+type Router struct {
+  Routes []Route
+}
+
+type HandlerFunc func(http.ResponseWriter, *http.Request)
+
+func RouteHandler(req request.HttpRequest) string {
 	if !isValidPath(req.Method) {
 		return "HTTP/1.1 404 Not Found\r\n\r\n"
 	}
