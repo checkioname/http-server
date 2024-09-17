@@ -9,11 +9,11 @@ import (
 
 
 type Route struct {
-  Method string // GET, POST, PUT, DELETE
-  Path string  // caminho request
-  Handler []HandlerFunc  //Middleware
-  Group string // grupo para o qual a rota pertence
-  IsTerminal bool // se verdadeiro nenhuma rota processa depois
+  Method     string         // GET, POST, PUT, DELETE
+  Path       string         // caminho request
+  Handler    []HandlerFunc  // Middleware
+  Group      string         // grupo para o qual a rota pertence
+  IsTerminal bool           // se verdadeiro nenhuma rota processa depois
 
 }
 
