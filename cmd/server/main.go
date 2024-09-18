@@ -1,7 +1,7 @@
 package main
 
 import (
-	"crystal/internal/server"
+	"flash/internal/server"
 )
 
 func main() {

@@ -1,10 +1,10 @@
 package http
 
 import (
+	"flash/modules/request"
+	"flash/modules/response"
 	"fmt"
 	"io/ioutil"
-	"crystal/pkg/request"
-	"crystal/pkg/response"
 	"os"
 	"strings"
 )
@@ -32,5 +32,3 @@ func HandleFiles(req request.HttpRequest) string {
 
 	return fmt.Sprintf("HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: %d\r\n\r\n%s", len(data), data)
 }
-
-

@@ -1,5 +1,5 @@
 // DON'T EDIT THIS!
 
-module crystal
+module flash
 
 go 1.22

@@ -1,24 +1,23 @@
 package http
 
 import (
-	"crystal/pkg/request"
-	"crystal/pkg/response"
+	"flash/modules/request"
+	"flash/modules/response"
 	"net/http"
 	"strings"
 )
 
-
 type Route struct {
-  Method     string         // GET, POST, PUT, DELETE
-  Path       string         // caminho request
-  Handler    []HandlerFunc  // Middleware
-  Group      string         // grupo para o qual a rota pertence
-  IsTerminal bool           // se verdadeiro nenhuma rota processa depois
+	Method     string        // GET, POST, PUT, DELETE
+	Path       string        // caminho request
+	Handler    []HandlerFunc // Middleware
+	Group      string        // grupo para o qual a rota pertence
+	IsTerminal bool          // se verdadeiro nenhuma rota processa depois
 
 }
 
 type Router struct {
-  Routes []Route
+	Routes []Route
 }
 
 type HandlerFunc func(http.ResponseWriter, *http.Request)
@@ -44,14 +43,14 @@ func RouteHandler(req request.HttpRequest) string {
 	return "HTTP/1.1 200 OK\r\n\r\n"
 }
 
-func isValidPath(method string) bool{
-    return method == "GET / HTTP/1.1" || strings.Contains(method,"GET /echo/") || strings.Contains(method,"GET /user-agent") || strings.Contains(method,"GET /files")
+func isValidPath(method string) bool {
+	return method == "GET / HTTP/1.1" || strings.Contains(method, "GET /echo/") || strings.Contains(method, "GET /user-agent") || strings.Contains(method, "GET /files")
 }
 
-func getPathSizeAndContent(req request.HttpRequest) (string,int){
-  content := strings.Split(req.RequestTarget,"/")
-  lastElement := content[len(content)-1]
-  var contentLength = len(lastElement)
+func getPathSizeAndContent(req request.HttpRequest) (string, int) {
+	content := strings.Split(req.RequestTarget, "/")
+	lastElement := content[len(content)-1]
+	var contentLength = len(lastElement)
 
-  return lastElement, contentLength
+	return lastElement, contentLength
 }

@@ -1,11 +1,11 @@
 package server
 
 import (
+	"flash/internal/http"
+	"flash/modules/request"
 	"fmt"
 	"net"
 	"os"
-	"crystal/internal/http"
-	"crystal/pkg/request"
 )
 
 func Start() {
@@ -35,8 +35,9 @@ func handleConnection(conn net.Conn) {
 	requestBytes := make([]byte, 1024)
 	conn.Read(requestBytes)
 
-	req := request.ParseRequest(string(requestBytes))
-	response := http.Route(req)
+	r := request.HttpRequest{}
+	req := r.ParseStringToRequest(string(requestBytes))
+	response := http.RouteHandler(req)
 
 	conn.Write([]byte(response))
 }
