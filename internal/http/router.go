@@ -22,6 +22,11 @@ type Router struct {
 
 type HandlerFunc func(http.ResponseWriter, *http.Request)
 
+// Carregar rotas a partir de um arquivo de configuração
+func (r *Router) LoadRoutes(path string) {
+
+}
+
 func RouteHandler(req request.HttpRequest) string {
 	if !isValidPath(req.Method) {
 		return "HTTP/1.1 404 Not Found\r\n\r\n"
