@@ -1,13 +1,14 @@
-events:
-  - Test
 http: "Golang YAML"
+events:
+  - start
+  - stop
+server:
   include: mime.types
-  default_type: application/pctet-stream;
-  sendfile: on;
-  keepalive_timeout: 65;
-  - server:
-		  listen:          8080;
-		  server_name:     localhost;
-		  location: 
-			  root:          html;
-			  index:         index.html index.htm;
+  default_type: application/pctet-stream
+  sendfile: on
+  keepalive_timeout: 65
+  listen:          8080
+  server_name:     localhost
+  location: 
+  root:          html
+  index:         index.html index.htm

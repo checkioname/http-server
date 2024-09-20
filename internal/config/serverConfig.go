@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"gopkg.in/yaml.v3"
 )
 
 type Location struct {
@@ -31,18 +32,25 @@ type Config struct {
 
 // Carregar rotas a partir de um arquivo de configuração
 func (r *Config) LoadConfig() {
+  var config map[string] interface {}
 
   err := godotenv.Load()
   if err != nil {
     fmt.Printf("Could not load env variables %v", err)
   }
 
-  
   configPath := os.Getenv("CONFIG_PATH")
   yamlFile, err := os.ReadFile(configPath)
   if err != nil {
     fmt.Println(err)
   }
+  fmt.Println(string(yamlFile))
+
+
+  err = yaml.Unmarshal(yamlFile, &config)
+  if err != nil {
+    panic(err)
+  }
   
-  fmt.Println(yamlFile)
+  fmt.Println(config["http"])
 }
