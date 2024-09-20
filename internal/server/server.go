@@ -3,20 +3,22 @@ package server
 import (
 	"flash/internal/http"
 	"flash/modules/request"
+  "flash/internal/config"
 	"fmt"
 	"net"
 	"os"
 )
 
-func Start() {
-	listener, err := net.Listen("tcp", "0.0.0.0:4221")
+func Start(config config.Config) {
+  port := fmt.Sprintf(":%d", config.Server.Listen)
+  listener, err := net.Listen("tcp", port)
 	if err != nil {
-		fmt.Println("Failed to bind to port 4221")
+		fmt.Printf("Failed to bind to port %v", port)
 		os.Exit(1)
 	}
 	defer listener.Close()
 
-	fmt.Println("Listening on port :4221...")
+	fmt.Printf("Listening on port :%s...",port)
 	for {
 		conn, err := listener.Accept()
 		if err != nil {

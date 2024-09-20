@@ -14,26 +14,24 @@ type Location struct {
 }
 
 type Server struct {
-  Listen int64 `yaml:"listen"`
-  ServerName string `yaml:"server_name"`
-  Location Location `yaml:"location"`
+        DefaultType string `yaml:"default_type"` 
+        SendFile string `yaml:"sendfile"`
+        KeepAlive int `yaml:"keepalive_timeout"`
+        Listen     int    `yaml:"listen"`
+        ServerName string `yaml:"server_name"`
+        Location   Location `yaml:"location"`
 }
-
 
 type Config struct {
-  Events []string `yaml:"events"`
-  Http string `yaml:"http"`
-  Include string `yaml:"include"`
-  DefaultType string  `yaml:"default_type"`
-  SendFile string `yaml:"sendfile"`
-  KeepAlive int64 `yaml:"keepalive_timeout"`
-}
+    Http   string   `yaml:"http"`
+    Events []string `yaml:"events"`
+    Server Server  `yaml:"server"`
+
+    }
 
 
 // Carregar rotas a partir de um arquivo de configuração
 func (r *Config) LoadConfig() {
-  var config map[string] interface {}
-
   err := godotenv.Load()
   if err != nil {
     fmt.Printf("Could not load env variables %v", err)
@@ -42,15 +40,14 @@ func (r *Config) LoadConfig() {
   configPath := os.Getenv("CONFIG_PATH")
   yamlFile, err := os.ReadFile(configPath)
   if err != nil {
-    fmt.Println(err)
+    fmt.Printf("Could not read the .env file - %v",err)
   }
-  fmt.Println(string(yamlFile))
 
 
-  err = yaml.Unmarshal(yamlFile, &config)
-  if err != nil {
-    panic(err)
+  err = yaml.Unmarshal(yamlFile, &r)
+  if err != nil { 
+    fmt.Printf("Could not parse the yaml - %v",err)
   }
   
-  fmt.Println(config["http"])
+  fmt.Println(r)
 }

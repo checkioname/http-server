@@ -9,5 +9,5 @@ func main() {
 
   c:= config.Config{}
   c.LoadConfig()
-	server.Start()
+	server.Start(c)
 }
