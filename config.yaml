@@ -1,0 +1,13 @@
+name: "Golang Flash Server"
+events:
+  - start
+  - stop
+setup:
+  default_type: application/pctet-stream
+  sendfile: on
+  keepalive_timeout: 65
+  listen:          8080
+  server_name:     localhost
+  location: 
+    root:          html
+    index:         ["index.html", "index.htm"]
