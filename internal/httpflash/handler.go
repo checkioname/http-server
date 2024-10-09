@@ -1,10 +1,9 @@
-package http
+package httpflash
 
 import (
 	"flash/modules/request"
 	"flash/modules/response"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"strings"
 )
@@ -25,7 +24,7 @@ func HandleFiles(req request.HttpRequest) string {
 	fileDir := os.Args[2]
 	fileName := strings.TrimPrefix(req.RequestTarget, "/files/")
 
-	data, err := ioutil.ReadFile(fileDir + fileName)
+	data, err := os.ReadFile(fileDir + fileName)
 	if err != nil {
 		return "HTTP/1.1 404 Not Found\r\n\r\n"
 	}

@@ -1,9 +1,10 @@
-package http
+package httpflash
 
 import (
 	"flash/modules/request"
 	"flash/modules/response"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -29,7 +30,7 @@ func (r *Router) LoadRoutes(path string) {
 
 func RouteHandler(req request.HttpRequest) string {
 	if !isValidPath(req.Method) {
-		return "HTTP/1.1 404 Not Found\r\n\r\n"
+		return notFound()
 	}
 
 	if strings.Contains(req.Method, "GET /echo") {
@@ -58,4 +59,13 @@ func getPathSizeAndContent(req request.HttpRequest) (string, int) {
 	var contentLength = len(lastElement)
 
 	return lastElement, contentLength
+}
+
+func notFound() string {
+	return "HTTP/1.1 404 Not Found\r\n\r\n"
+}
+
+func notFoundPage() []byte {
+	file, _ := os.ReadFile("index.html")
+	return file
 }

@@ -1,8 +1,8 @@
-http: "Golang YAML"
+name: "Golang Flash Server"
 events:
   - start
   - stop
-server:
+setup:
   default_type: application/pctet-stream
   sendfile: on
   keepalive_timeout: 65
