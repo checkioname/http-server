@@ -1,10 +1,11 @@
 package httpflash
 
 import (
-	"flash/modules/request"
-	"flash/modules/response"
+	"flash/internal/modules/request"
+	"flash/internal/modules/response"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -23,8 +24,13 @@ func HandleUserAgent(req request.HttpRequest) string {
 func HandleFiles(req request.HttpRequest) string {
 	fileDir := os.Args[2]
 	fileName := strings.TrimPrefix(req.RequestTarget, "/files/")
+  
+  absoluteFilePath := filepath.Join(fileDir, fileName)
+	if !strings.HasPrefix(absoluteFilePath, fileDir) {
+		return "HTTP/1.1 400 Bad Request\r\n\r\n" 
+	}
 
-	data, err := os.ReadFile(fileDir + fileName)
+	data, err := os.ReadFile(absoluteFilePath)
 	if err != nil {
 		return "HTTP/1.1 404 Not Found\r\n\r\n"
 	}

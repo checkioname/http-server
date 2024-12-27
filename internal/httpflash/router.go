@@ -1,8 +1,8 @@
 package httpflash
 
 import (
-	"flash/modules/request"
-	"flash/modules/response"
+	"flash/internal/modules/request"
+	"flash/internal/modules/response"
 	"net/http"
 	"os"
 	"strings"

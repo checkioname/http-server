@@ -1,12 +1,12 @@
 package main
 
 import (
-	"flash/internal/server"
+	"flash/internal/core"
 )
 
 func main() {
 
-  s:= server.Server{}
+  s, _ := core.NewServer()
   s.LoadConfig()
 	s.Start()
 }

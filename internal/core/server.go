@@ -1,4 +1,4 @@
-package server
+package core
 
 import (
 	"fmt"
@@ -6,6 +6,7 @@ import (
 
 	"flash/internal/httpflash"
 	"flash/internal/modules/request"
+
 	"net"
 	"os"
 
@@ -34,6 +35,13 @@ type Server struct {
 
 	Setup Setup `yaml:"setup"`
 }
+
+
+func NewServer () (Server, error){
+  return Server{
+  }, nil
+}
+
 
 // ServeHTTP implementa o handler HTTP
 func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
