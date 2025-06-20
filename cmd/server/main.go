@@ -7,6 +7,7 @@ import (
 	"log"
 
 	_ "flash/internal/modules/echo"
+	_ "flash/internal/modules/ratelimit"
 )
 
 func main() {

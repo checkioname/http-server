@@ -1,34 +1,61 @@
 package ratelimit
 
 import (
+	"flash/internal/core"
 	"net/http"
 	"strings"
 	"sync"
 	"time"
 )
 
-type RateLimiter struct {
+const (
+	maxRequest = 5
+	timeWindow = time.Minute
+)
+
+type FlashRateLimit struct {
 	requests    map[string][]time.Time
 	maxRequests int
 	mu          sync.Mutex
 	Interval    time.Duration
 }
 
-const (
-	maxRequest = 5
-	timeWindow = time.Minute
-)
-
 type Client struct {
 	Ip string
 }
 
-// func (rl *RateLimiter) Apply(next http.Handler) http.Handler {
-//   return http.HandlerFunc(rl.limit())
-// }
+func NewFlashRateLimit(maxRequests int, interval time.Duration) *FlashRateLimit {
+	return &FlashRateLimit{
+		requests:    make(map[string][]time.Time),
+		maxRequests: maxRequests,
+		Interval:    interval,
+	}
+}
 
-func (rl *RateLimiter) limit(w http.ResponseWriter, r *http.Response) {
-	ip := r.Request.RemoteAddr
+func init() {
+	core.RegisterModule(NewFlashRateLimit(1, time.Minute))
+}
+
+func (p *FlashRateLimit) Name() string {
+	return "rate limit"
+}
+
+func (p *FlashRateLimit) Match(r *http.Request) bool {
+	return true
+}
+
+func (p *FlashRateLimit) Init(config map[string]interface{}) error {
+	if mr, ok := config["max_requests"].(int); ok {
+		p.maxRequests = mr
+	}
+	if iv, ok := config["interval_seconds"].(int); ok {
+		p.Interval = time.Duration(iv) * time.Second
+	}
+	return nil
+}
+
+func (rl *FlashRateLimit) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	ip := r.RemoteAddr
 	ip = strings.Split(ip, ":")[0]
 
 	rl.mu.Lock()
