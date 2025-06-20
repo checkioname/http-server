@@ -31,7 +31,7 @@ func NewConfig() Config {
 }
 
 type config struct {
-  Setup Setup `yaml:"setup"`
+	Setup Setup `yaml:"setup"`
 }
 
 func (c *config) LoadConfig() (Setup, error) {
@@ -54,15 +54,14 @@ func (c *config) LoadConfig() (Setup, error) {
 		return Setup{}, err
 	}
 
-  if err = validateConfig(); err != nil {
-    return Setup{}, nil
-  }
+	if err = validateConfig(); err != nil {
+		return Setup{}, nil
+	}
 
 	fmt.Println(c.Setup)
 	return c.Setup, nil
 }
 
-
 func validateConfig() error {
-  return nil
+	return nil
 }

@@ -9,7 +9,4 @@ import (
 
 func TestRouterHandler(t *testing.TB) {
   serverMock := httptest.NewServer() {}
-
-
-
 }

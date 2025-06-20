@@ -1,6 +1,8 @@
 package request
 
-import "strings"
+import (
+	"net/http"
+)
 
 type HttpRequest struct {
 	Method        string
@@ -12,31 +14,14 @@ type HttpRequest struct {
 	Body          string
 }
 
-func (h HttpRequest) ParseStringToRequest(request string) HttpRequest {
-	lines := strings.Split(request, "\r\n")
-
-	method := lines[0]
-	requestTarget := strings.Fields(method)[1]
-	host := ""
-	accept := ""
-	userAgent := ""
-
-	for _, line := range lines[1:] {
-		if strings.HasPrefix(line, "Host: ") {
-			host = strings.TrimPrefix(line, "Host: ")
-		} else if strings.HasPrefix(line, "Accept: ") {
-			accept = strings.TrimPrefix(line, "Accept: ")
-		} else if strings.HasPrefix(line, "User-Agent: ") {
-			userAgent = strings.TrimPrefix(line, "User-Agent: ")
-		}
-	}
-
-	return HttpRequest{
-		Method:        method,
-		RequestTarget: requestTarget,
-		Host:          host,
-		UserAgent:     userAgent,
-		Accept:        accept,
-	}
-
+func ParseHttpRequestFromStd(r *http.Request) (*HttpRequest, error) {
+	return &HttpRequest{
+		Method:        r.Method + " " + r.RequestURI + " " + r.Proto,
+		RequestTarget: r.URL.Path,
+		HttpVersion:   r.Proto,
+		Host:          r.Host,
+		UserAgent:     r.UserAgent(),
+		Accept:        r.Header.Get("Accept"),
+		Body:          "",
+	}, nil
 }
